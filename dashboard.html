@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard - Hosting</title>
+  <link rel="stylesheet" href="https://epromod.github.io/on/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+
+   <!-- PWA Support -->
+   <link rel="manifest" href="manifest.json" />
+   <meta name="theme-color" content="#007bff" />
+   <link rel="icon" href="icon-192.png" />
+   <meta name="apple-mobile-web-app-capable" content="yes" />
+   <meta name="mobile-web-app-capable" content="yes" />
+</head>
+<body>
+  <div class="container">
+    <h2>📁 Dashboard</h2>
+    <p>Selamat datang, <span id="userEmail"></span></p>
+    <button onclick="logout()">🔒 Logout</button>
+    <button onclick="toggleDarkMode()" id="darkModeToggle">🌙 Dark Mode</button>
+
+    <h3>📤 Upload File</h3>
+    <div id="dropArea">
+      Tarik dan lepas file atau klik untuk memilih
+      <input type="file" id="fileInput" multiple hidden />
+    </div>
+
+    <h3>📊 Statistik</h3>
+    <p>Total File: <span id="fileCount">0</span></p>
+    <p>Total Ukuran: <span id="fileSize">0</span></p>
+
+    <h3>📂 Daftar File</h3>
+    <div id="fileList"></div>
+  </div>
+
+  <div class="modal" id="editModal">
+    <div class="modal-content">
+      <h3>Edit File</h3>
+      <textarea id="editArea" rows="15" style="width:100%"></textarea>
+      <button onclick="saveEdit()">💾 Simpan</button>
+      <button onclick="closeModal()">❌ Tutup</button>
+    </div>
+  </div>
+  <div class="modal" id="qrModal">
+    <div class="modal-content" style="text-align:center;">
+      <h3>📱 QR Code</h3>
+      <canvas id="qrCanvas"></canvas><br/>
+      <button onclick="closeQR()">❌ Tutup</button>
+    </div>
+  </div>
+  
+
+  <script src="https://epromod.github.io/on/dashboard.js"></script>
+</body>
+</html>

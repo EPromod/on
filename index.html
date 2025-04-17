@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login | Hosting</title>
+  <link rel="stylesheet" href="https://epromod.github.io/on/style.css">
+   <!-- PWA Support -->
+   <link rel="manifest" href="manifest.json" />
+   <meta name="theme-color" content="#007bff" />
+   <link rel="icon" href="icon-192.png" />
+   <meta name="apple-mobile-web-app-capable" content="yes" />
+   <meta name="mobile-web-app-capable" content="yes" />
+</head>
+<body>
+  <div class="container">
+    <h2>HostingWeb</h2>
+
+    <div id="statusMessage" class="status-message"></div>
+
+    <!-- Login -->
+    <div id="loginForm">
+      <input type="email" id="loginEmail" placeholder="Email" required>
+      <input type="password" id="loginPassword" placeholder="Password" required>
+      <button onclick="login()">Login</button>
+      <p><a href="#" onclick="switchForm('register')">Daftar</a> | <a href="#" onclick="switchForm('reset')">Lupa Password?</a></p>
+    </div>
+
+    <!-- Register -->
+    <div id="registerForm" style="display: none;">
+      <input type="email" id="registerEmail" placeholder="Email" required>
+      <input type="password" id="registerPassword" placeholder="Password" required>
+      <button onclick="register()">Daftar</button>
+      <p><a href="#" onclick="switchForm('login')">Sudah punya akun? Login</a></p>
+    </div>
+
+    <!-- Reset Password -->
+    <div id="resetForm" style="display: none;">
+      <input type="email" id="resetEmail" placeholder="Email terdaftar" required>
+      <button onclick="resetPassword()">Reset Password</button>
+      <p><a href="#" onclick="switchForm('login')">Kembali ke Login</a></p>
+    </div>
+  </div>
+
+  <footer style="color:#242e30;text-align: center;text-shadow:#121212 ;font-size: 20px;">Buat Oleh edy Sahputra </footer>
+
+  <script src="https://epromod.github.io/on/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Panel - Hosting Drive</title>
+  <link rel="stylesheet" href="https://epromod.github.io/on/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+   <!-- PWA Support -->
+   <link rel="manifest" href="manifest.json" />
+   <meta name="theme-color" content="#007bff" />
+   <link rel="icon" href="icon-192.png" />
+   <meta name="apple-mobile-web-app-capable" content="yes" />
+   <meta name="mobile-web-app-capable" content="yes" />
+</head>
+<body>
+  <div class="container">
+    <h2>🛠️ Admin Panel</h2>
+    <button onclick="logout()">🔒 Logout</button>
+
+    <h3>👤 Data Pengguna</h3>
+    <div id="userTable"></div>
+
+    <h3>📅 Riwayat Aktivitas</h3>
+    <label>Dari: <input type="date" id="startDate"></label>
+    <label>Sampai: <input type="date" id="endDate"></label>
+    <button onclick="loadRiwayat()">🔍 Tampilkan</button>
+    <div id="logTable"></div>
+
+    <h3>📈 Grafik Storage</h3>
+    <canvas id="userChart" height="150"></canvas>
+
+    <h3>📊 Statistik Global</h3>
+    <div id="globalStats"></div>
+
+    <h3>💾 Statistik Per User</h3>
+    <div id="userStorageStats"></div>
+
+    <h3>📤 Export Data</h3>
+    <button onclick="exportExcel()">⬇️ Export Excel</button>
+  </div>
+
+  <script src="https://epromod.github.io/on/admin.js"></script>
+</body>
+</html>

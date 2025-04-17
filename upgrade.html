@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Upgrade Akun</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h2>💳 Upgrade ke Premium</h2>
+    <p>Silakan isi form konfirmasi pembayaran.</p>
+
+    <input type="email" id="upgradeEmail" placeholder="Email kamu" required />
+    <input type="text" id="buktiPembayaran" placeholder="Nomor referensi/transaksi" required />
+    <button onclick="submitUpgrade()">🚀 Kirim Konfirmasi</button>
+
+    <div id="statusUpgrade"></div>
+  </div>
+
+  <script>
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxJIxUp_1VCNkQfSaL40v1Io5C_NAE8V8rlutBah6zaUQdXui4os9v1VnyMqb3AhjZG/exec";
+
+    async function submitUpgrade() {
+      const email = document.getElementById("upgradeEmail").value.trim();
+      const bukti = document.getElementById("buktiPembayaran").value.trim();
+
+      if (!email || !bukti) return alert("Isi semua kolom.");
+
+      const form = new FormData();
+      form.append("action", "konfirmasiUpgrade");
+      form.append("email", email);
+      form.append("bukti", bukti);
+
+      const res = await fetch(WEB_APP_URL, { method: "POST", body: form });
+      const result = await res.json();
+
+      document.getElementById("statusUpgrade").textContent = result.message;
+    }
+  </script>
+</body>
+</html>
