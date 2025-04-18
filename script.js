@@ -69,3 +69,19 @@ if ('serviceWorker' in navigator) {
     .then(() => console.log("✅ Service Worker Terdaftar"))
     .catch(err => console.error("❌ Gagal Daftar SW", err));
 }
+
+function googleLogin() {
+  google.script.run.withSuccessHandler(user => {
+    if (!user.success) return alert("Akun tidak dikenali.");
+    localStorage.setItem("email", user.email);
+    localStorage.setItem("folderId", user.folderId);
+    localStorage.setItem("userType", user.type);
+    localStorage.setItem("limitMB", user.limit);
+
+    if (user.email === "admin@edyhost.com") {
+      window.location.href = "admin.html";
+    } else {
+      window.location.href = "dashboard.html";
+    }
+  }).loginWithGoogle();
+}

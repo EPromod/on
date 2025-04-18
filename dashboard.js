@@ -6,6 +6,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const email = localStorage.getItem("email");
   const folderId = localStorage.getItem("folderId");
   if (!email || !folderId) return window.location.href = "index.html";
+  if (localStorage.getItem("userType") === "premium") {
+    document.getElementById("premiumBadge").style.display = "inline-block";
+    document.body.classList.add("premium-user");
+  }
 
   document.getElementById("userEmail").textContent = email;
 
@@ -53,6 +57,7 @@ function toggleDarkMode() {
 async function handleUpload(e) {
   const files = e.target.files;
   const limitMB = parseInt(localStorage.getItem("limitMB") || "10");
+  const kategori = document.getElementById("kategoriSelect").value || "umum";
   const currentUsage = await getCurrentUsage();
   const remaining = (limitMB * 1024 * 1024) - currentUsage;
 
@@ -73,6 +78,9 @@ async function handleUpload(e) {
       form.append("fileName", file.name);
       form.append("mimeType", file.type);
       form.append("fileData", base64);
+      form.append("kategori", kategori);
+      form.append("private", document.getElementById("isPrivate").checked ? "yes" : "no");
+
 
       const res = await fetch(WEB_APP_URL, { method: "POST", body: form });
       const result = await res.json();
@@ -93,6 +101,14 @@ async function getCurrentUsage() {
 }
 
 async function loadFileList() {
+  const ext = file.name.split(".").pop().toLowerCase();
+  if (["mp4", "webm", "ogg"].includes(ext)) {
+    div.innerHTML += `<video controls width="100%" style="margin-top:10px;">
+    <source src="${file.link}" type="video/${ext}">
+    Video tidak didukung
+  </video>`;
+  }
+
   const form = new FormData();
   form.append("action", "list");
   form.append("folderId", localStorage.getItem("folderId"));
@@ -192,4 +208,12 @@ function showQR(link) {
 
 function closeQR() {
   document.getElementById("qrModal").style.display = "none";
+}
+
+if (localStorage.getItem("userType") === "developer") {
+  const devBar = document.createElement("div");
+  devBar.innerHTML = `<div style="margin-top:10px;color:#28a745;">
+    👨‍💻 Developer Mode Aktif — kamu punya akses penuh edit semua file</div>`;
+  document.querySelector(".container").prepend(devBar);
+  document.body.classList.add("developer");
 }
