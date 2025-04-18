@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -8,36 +7,25 @@
   <link rel="stylesheet" href="https://epromod.github.io/on/style.css" />
   <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 
-  <!-- PWA Support -->
-  <link rel="manifest" href="manifest.json" />
-  <meta name="theme-color" content="#007bff" />
-  <link rel="icon" href="icon-192.png" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="mobile-web-app-capable" content="yes" />
+   <!-- PWA Support -->
+   <link rel="manifest" href="manifest.json" />
+   <meta name="theme-color" content="#007bff" />
+   <link rel="icon" href="icon-192.png" />
+   <meta name="apple-mobile-web-app-capable" content="yes" />
+   <meta name="mobile-web-app-capable" content="yes" />
 </head>
-
 <body>
   <div class="container">
     <h2>📁 Dashboard</h2>
     <p>Selamat datang, <span id="userEmail"></span></p>
-    <span id="premiumBadge" class="badge-premium" style="display:none;">👑 Premium User</span>
-
     <button onclick="logout()">🔒 Logout</button>
     <button onclick="toggleDarkMode()" id="darkModeToggle">🌙 Dark Mode</button>
 
-    <label><input type="checkbox" id="isPrivate"> 🔒 Simpan sebagai file privat</label>
-
-    <h3>📁 Pilih Kategori Upload</h3>
-    <select id="kategoriSelect">
-      <option value="dokumen">📄 Dokumen</option>
-      <option value="gambar">🖼️ Gambar</option>
-      <option value="script">📜 Script</option>
-    </select>
-
     <h3>📤 Upload File</h3>
-    <div class="upload-label" id="dropArea">
-      Tarik dan lepas file atau klik Disini
-      <input type="file" id="fileInput" multiple webkitdirectory directory hidden />
+    <div id="dropArea">
+      Tarik dan lepas file atau klik Disini ==> #
+      <input type="file" id="fileInput" multiple hidden />
+     
     </div>
 
     <h3>📊 Statistik</h3>
@@ -59,13 +47,12 @@
   <div class="modal" id="qrModal">
     <div class="modal-content" style="text-align:center;">
       <h3>📱 QR Code</h3>
-      <canvas id="qrCanvas"></canvas><br />
+      <canvas id="qrCanvas"></canvas><br/>
       <button onclick="closeQR()">❌ Tutup</button>
     </div>
   </div>
-
+  
 
   <script src="https://epromod.github.io/on/dashboard.js"></script>
 </body>
-
 </html>
