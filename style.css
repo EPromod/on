@@ -95,7 +95,7 @@ button:hover {
 .file-actions button, .file-actions a {
   margin-left: 8px;
   cursor: pointer;
-  background: transparent;
+  background:#689acf;
   border: none;
   font-size: 1.1em;
 }
