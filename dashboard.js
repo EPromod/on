@@ -118,11 +118,11 @@ async function loadFileList() {
     div.innerHTML = `
       <strong>${file.name}${isIndex ? " 🏠" : ""}</strong>
       <div class="file-actions">
-        <a href="${file.link}" target="_blank">${isIndex ? "🏠" : "🔗"} Lihat</a>
-        <button onclick="copyLink('${file.link}')">📋Copy Link</button>
-        ${isEditable(file.name) ? `<button onclick="editFile('${file.id}', '${file.name}')">✏️Edit</button>` : ""}
-        <button onclick="showQR('${file.link}')">📱QR</button>
-        <button onclick="deleteFile('${file.id}')">🗑️Hapus</button>
+        <a href="${file.link}" target="_blank">${isIndex ? "🏠" : "🔗"}</a>
+        <button onclick="copyLink('${file.link}')">📋</button>
+        ${isEditable(file.name) ? `<button onclick="editFile('${file.id}', '${file.name}')">✏️</button>` : ""}
+        <button onclick="showQR('${file.link}')">📱</button>
+        <button onclick="deleteFile('${file.id}')">🗑️</button>
       </div>`;
     list.appendChild(div);
   });
