@@ -56,40 +56,31 @@ async function handleUpload(e) {
   const currentUsage = await getCurrentUsage();
   const remaining = (limitMB * 1024 * 1024) - currentUsage;
 
-  const paths = [];
-
-  for (const file of files) {
+  [...files].forEach(file => {
     if (file.size > remaining) {
-      alert(`File ${file.name} melebihi batas penyimpanan.`);
-      continue;
+      alert(`File ${file.name} melebihi batas penyimpanan (${limitMB}MB).`);
+      return;
     }
 
-    const path = file.webkitRelativePath || file.name; // Dapatkan path relatif
-    paths.push(path);
-
     const reader = new FileReader();
+    reader.readAsDataURL(file);
     reader.onload = async () => {
       const base64 = reader.result.split(",")[1];
       const form = new FormData();
       form.append("action", "upload");
       form.append("email", localStorage.getItem("email"));
       form.append("folderId", localStorage.getItem("folderId"));
-      form.append("fileName", path); // path relatif!
+      form.append("fileName", file.name);
       form.append("mimeType", file.type);
       form.append("fileData", base64);
 
       const res = await fetch(WEB_APP_URL, { method: "POST", body: form });
       const result = await res.json();
-      if (!result.success) alert(result.message);
+      alert(result.success ? "Upload berhasil!" : result.message);
+      loadStats(); loadFileList();
     };
-    reader.readAsDataURL(file);
-  }
-
-  alert("Semua file dari folder telah diunggah.");
-  loadStats();
-  loadFileList();
+  });
 }
-
 
 async function getCurrentUsage() {
   const form = new FormData();
@@ -112,21 +103,19 @@ async function loadFileList() {
   list.innerHTML = "";
 
   result.files.forEach(file => {
-    const isIndex = file.name.toLowerCase().endsWith("index.html");
     const div = document.createElement("div");
     div.className = "file-card";
     div.innerHTML = `
-      <strong>${file.name}${isIndex ? " 🏠" : ""}</strong>
+      <strong>${file.name}</strong>
       <div class="file-actions">
-        <a href="${file.link}" target="_blank">${isIndex ? "🏠" : "🔗"}Lihat</a>
-        <button onclick="copyLink('${file.link}')">📋</button>
-        ${isEditable(file.name) ? `<button onclick="editFile('${file.id}', '${file.name}')">✏️</button>` : ""}
-        <button onclick="showQR('${file.link}')">📱</button>
-        <button onclick="deleteFile('${file.id}')">🗑️</button>
+        <a href="${file.link}" target="_blank">🔗Lihat Project</a>
+        <button onclick="copyLink('${file.link}')">📋Copy Link</button>
+        ${isEditable(file.name) ? `<button onclick="editFile('${file.id}', '${file.name}')">✏️Edit Project</button>` : ""}
+        <button onclick="showQR('${file.link}')">📱Scane QR</button>
+        <button onclick="deleteFile('${file.id}')">🗑️Hapus Project</button>
       </div>`;
     list.appendChild(div);
   });
-  
 }
 
 function isEditable(name) {
