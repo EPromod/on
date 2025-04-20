@@ -118,7 +118,7 @@ async function loadFileList() {
     div.innerHTML = `
       <strong>${file.name}${isIndex ? " 🏠" : ""}</strong>
       <div class="file-actions">
-        <a href="${file.link}" target="_blank">${isIndex ? "🏠" : "🔗"}</a>
+        <a href="${file.link}" target="_blank">${isIndex ? "🏠" : "🔗"}Lihat</a>
         <button onclick="copyLink('${file.link}')">📋</button>
         ${isEditable(file.name) ? `<button onclick="editFile('${file.id}', '${file.name}')">✏️</button>` : ""}
         <button onclick="showQR('${file.link}')">📱</button>
