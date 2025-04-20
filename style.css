@@ -96,7 +96,7 @@ button:hover {
   margin-left: 8px;
   cursor: pointer;
   background:#689acf;
- 
+  border: none;
   font-size: 1.1em;
 }
 
