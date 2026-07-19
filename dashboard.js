@@ -147,14 +147,15 @@ function openFolderModal() {
 
 async function createFolder() {
   const name = document.getElementById("inputFolderName").value.trim();
-  if(!name) return Swal.fire('Error', 'Nama folder tidak boleh kosong', 'warning');
+  if(!name) return Swal.fire('Oops!', 'Nama folder tidak boleh kosong', 'warning');
 
   const btn = document.getElementById("btn-create-folder");
-  btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Membuat...`; btn.disabled = true;
+  btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Membuat...`; 
+  btn.disabled = true;
 
   try {
     const form = new FormData();
-    form.append("action", "createFolder");
+    form.append("action", "createFolder"); // Perintah yang dikirim ke Apps Script
     form.append("parentFolderId", currentViewFolderId);
     form.append("folderName", escapeHTML(name));
 
@@ -162,17 +163,26 @@ async function createFolder() {
     const result = await res.json();
     
     if(result.success) {
-      Swal.fire({icon: 'success', title: 'Folder Dibuat', timer: 1000, showConfirmButton: false});
+      Swal.fire({icon: 'success', title: 'Folder Dibuat', timer: 1500, showConfirmButton: false});
       document.getElementById("folderModal").style.display = "none";
-      loadFileList();
+      loadFileList(); // Refresh daftar file
     } else {
-      // Fallback jika backend Apps Script belum memiliki fungsi 'createFolder'
-      Swal.fire('Info', result.message || 'Sistem Backend perlu ditambahkan fungsi createFolder', 'info');
+      // Jika Backend membalas 'Aksi tidak dikenal'
+      if (result.message && result.message.toLowerCase().includes("tidak dikenal")) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Sistem Belum Siap',
+          html: 'Tombol ini sudah responsif, tapi <b>Google Apps Script</b> Anda belum ditambahkan kode untuk membuat folder.<br><br>Silakan tambahkan blok kode <code>createFolder</code> ke backend Anda.',
+        });
+      } else {
+        Swal.fire('Gagal', result.message, 'error');
+      }
     }
   } catch(e) { 
-    Swal.fire('Error', 'Terjadi kesalahan jaringan', 'error'); 
+    Swal.fire('Error', 'Terjadi kesalahan jaringan atau koneksi terputus.', 'error'); 
   } finally { 
-    btn.innerHTML = `<i class="fa-solid fa-check"></i> Buat`; btn.disabled = false; 
+    btn.innerHTML = `<i class="fa-solid fa-check"></i> Buat`; 
+    btn.disabled = false; 
   }
 }
 
