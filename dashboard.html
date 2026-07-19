@@ -10,7 +10,7 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-  <!-- GitHub Header Style dengan Warna Gradient Original -->
+  <!-- GitHub Header Style -->
   <header class="gh-header">
     <h2><i class="fa-solid fa-cloud"></i> EdyHost Dashboard</h2>
     <nav>
@@ -20,45 +20,84 @@
   </header>
 
   <div class="gh-container">
-    <!-- Sidebar Kiri (Ala GitHub Profile) -->
+    <!-- Sidebar Kiri (Profil) -->
     <aside>
-      <img src="https://ui-avatars.com/api/?name=User&background=007bff&color=fff&size=200" alt="Avatar" style="width: 100%; border-radius: 50%; margin-bottom: 16px; border: 1px solid var(--gh-border);">
-      <h3 style="word-break: break-all;" id="userEmail">Loading...</h3>
-      <p class="text-muted" style="margin-bottom: 24px;">Developer Workspace</p>
+      <div class="avatar-wrapper">
+        <img id="userAvatar" src="https://ui-avatars.com/api/?name=User&background=007bff&color=fff&size=200" alt="Avatar">
+        <button class="edit-avatar-btn" onclick="openProfileModal()" title="Edit Profil"><i class="fa-solid fa-camera"></i></button>
+      </div>
+      <h3 style="text-align: center; word-break: break-word;" id="userDisplayName">Loading...</h3>
+      <p class="text-muted" style="text-align: center; margin-bottom: 24px; font-size: 12px;" id="userEmail">developer@email.com</p>
 
       <div class="gh-box">
         <div class="gh-box-header">Storage Stats</div>
         <div class="gh-box-body">
-          <p><i class="fa-solid fa-file-code text-muted"></i> <strong><span id="fileCount">0</span></strong> Files</p>
+          <p><i class="fa-solid fa-file-code text-muted"></i> <strong><span id="fileCount">0</span></strong> Items</p>
           <p style="margin-top: 10px;"><i class="fa-solid fa-database text-muted"></i> <strong><span id="fileSize">0</span></strong> Used</p>
         </div>
       </div>
     </aside>
 
-    <!-- Konten Utama Kanan (Ala GitHub Repositories) -->
+    <!-- Konten Utama (Repositori & Folder) -->
     <main>
       <!-- Area Upload -->
       <div id="dropArea" class="gh-box" style="background: var(--gh-bg);">
         <i class="fa-solid fa-cloud-arrow-up fa-2x" style="color: var(--primary); margin-bottom: 8px;"></i><br>
         <strong>Upload File</strong><br>
-        <span class="text-muted">Tarik & lepas file atau klik untuk memilih file</span>
+        <span class="text-muted">Tarik & lepas file atau klik untuk memilih file ke dalam folder saat ini</span>
         <input type="file" id="fileInput" multiple hidden />
       </div>
 
-      <!-- File List -->
+      <!-- File List & Folder Navigator -->
       <div class="gh-box">
-        <div class="gh-box-header">
-          <span><i class="fa-solid fa-book-bookmark"></i> File Projects</span>
-          <button class="btn-primary" onclick="document.getElementById('fileInput').click()" style="padding: 4px 12px; font-size: 12px;">New</button>
+        <div class="gh-box-header" style="flex-wrap: wrap; gap: 10px;">
+          <span><i class="fa-solid fa-book-bookmark"></i> Workspace</span>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn-primary" onclick="openFolderModal()" style="padding: 4px 12px; font-size: 12px; background: #2ea043; border-color: #2ea043;"><i class="fa-solid fa-folder-plus"></i> New Folder</button>
+            <button class="btn-primary" onclick="document.getElementById('fileInput').click()" style="padding: 4px 12px; font-size: 12px;"><i class="fa-solid fa-file-arrow-up"></i> Upload</button>
+          </div>
         </div>
+        
+        <!-- Breadcrumb / Path Navigasi Folder -->
+        <div class="breadcrumb" id="breadcrumbArea">
+          <a onclick="navigateToRoot()"><i class="fa-solid fa-house"></i> Root</a>
+        </div>
+
         <div id="fileList">
-          <p style="padding: 20px; text-align: center;" class="text-muted"><i class="fa-solid fa-spinner fa-spin"></i> Loading files...</p>
+          <p style="padding: 20px; text-align: center;" class="text-muted"><i class="fa-solid fa-spinner fa-spin"></i> Loading workspace...</p>
         </div>
       </div>
     </main>
   </div>
 
-  <!-- Modals -->
+  <!-- Modals Edit Profil -->
+  <div class="modal" id="profileModal">
+    <div class="modal-content" style="max-width: 400px;">
+      <h3 style="margin-bottom: 16px;"><i class="fa-solid fa-user-pen"></i> Edit Profil</h3>
+      <label class="text-muted">Nama Tampilan</label>
+      <input type="text" id="inputDisplayName" placeholder="Nama Anda" />
+      <label class="text-muted" style="margin-top: 10px; display:block;">Foto Profil Baru</label>
+      <input type="file" id="inputAvatar" accept="image/*" />
+      <div style="display: flex; gap: 8px; margin-top: 20px;">
+        <button class="btn-primary" id="btn-save-profile" onclick="saveProfile()" style="flex: 1;"><i class="fa-solid fa-floppy-disk"></i> Simpan</button>
+        <button onclick="document.getElementById('profileModal').style.display='none'" style="flex: 1;"><i class="fa-solid fa-xmark"></i> Batal</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modals Buat Folder -->
+  <div class="modal" id="folderModal">
+    <div class="modal-content" style="max-width: 400px;">
+      <h3 style="margin-bottom: 16px;"><i class="fa-solid fa-folder-plus"></i> Buat Folder Baru</h3>
+      <input type="text" id="inputFolderName" placeholder="Nama Folder..." />
+      <div style="display: flex; gap: 8px; margin-top: 16px;">
+        <button class="btn-primary" id="btn-create-folder" onclick="createFolder()" style="flex: 1;"><i class="fa-solid fa-check"></i> Buat</button>
+        <button onclick="document.getElementById('folderModal').style.display='none'" style="flex: 1;"><i class="fa-solid fa-xmark"></i> Batal</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modals Edit Code -->
   <div class="modal" id="editModal">
     <div class="modal-content">
       <h3 style="margin-bottom: 16px;"><i class="fa-solid fa-code"></i> Edit Source</h3>
@@ -70,6 +109,7 @@
     </div>
   </div>
 
+  <!-- Modals QR -->
   <div class="modal" id="qrModal">
     <div class="modal-content" style="text-align:center; max-width: 300px;">
       <h3 style="margin-bottom: 16px;"><i class="fa-solid fa-qrcode"></i> Scan Project</h3>
