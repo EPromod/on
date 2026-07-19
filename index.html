@@ -3,47 +3,50 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Login | Hosting</title>
-  <link rel="stylesheet" href="https://epromod.github.io/on/style.css">
-   <!-- PWA Support -->
-   <link rel="manifest" href="manifest.json" />
-   <meta name="theme-color" content="#007bff" />
-   <link rel="icon" href="icon-192.png" />
-   <meta name="apple-mobile-web-app-capable" content="yes" />
-   <meta name="mobile-web-app-capable" content="yes" />
+  <title>Login | EdyHost</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
-<body>
-  <div class="container">
-    <h2>HostingWeb</h2>
+<body class="login-page">
+  <div class="login-box">
+    <h2 style="margin-bottom: 20px;"><i class="fa-solid fa-cloud"></i> EdyHost</h2>
+    <p class="text-muted" style="margin-bottom: 24px;">Sign in to your workspace</p>
 
-    <div id="statusMessage" class="status-message"></div>
-
-    <!-- Login -->
     <div id="loginForm">
-      <input type="email" id="loginEmail" placeholder="Email" required>
+      <input type="email" id="loginEmail" placeholder="Email address" required>
       <input type="password" id="loginPassword" placeholder="Password" required>
-      <button onclick="login()">Login</button>
-      <p><a href="#" onclick="switchForm('register')">Daftar</a> | <a href="#" onclick="switchForm('reset')">Lupa Password?</a></p>
+      <button id="btn-login" class="btn-primary" onclick="login()" style="width: 100%; margin-top: 16px; padding: 10px;">
+        <i class="fa-solid fa-right-to-bracket"></i> Sign In
+      </button>
+      <p style="margin-top: 24px; font-size: 14px;">
+        <a href="#" onclick="switchForm('register')" style="color: var(--primary); text-decoration: none;">Create an account</a> | 
+        <a href="#" onclick="switchForm('reset')" style="color: var(--gh-text-muted); text-decoration: none;">Forgot password?</a>
+      </p>
     </div>
 
-    <!-- Register -->
     <div id="registerForm" style="display: none;">
-      <input type="email" id="registerEmail" placeholder="Email" required>
+      <input type="email" id="registerEmail" placeholder="Email address" required>
       <input type="password" id="registerPassword" placeholder="Password" required>
-      <button onclick="register()">Daftar</button>
-      <p><a href="#" onclick="switchForm('login')">Sudah punya akun? Login</a></p>
+      <button id="btn-register" class="btn-primary" onclick="register()" style="width: 100%; margin-top: 16px; padding: 10px;">
+        <i class="fa-solid fa-user-plus"></i> Sign Up
+      </button>
+      <p style="margin-top: 24px; font-size: 14px;">
+        <a href="#" onclick="switchForm('login')" style="color: var(--primary); text-decoration: none;">Already have an account?</a>
+      </p>
     </div>
 
-    <!-- Reset Password -->
     <div id="resetForm" style="display: none;">
-      <input type="email" id="resetEmail" placeholder="Email terdaftar" required>
-      <button onclick="resetPassword()">Reset Password</button>
-      <p><a href="#" onclick="switchForm('login')">Kembali ke Login</a></p>
+      <input type="email" id="resetEmail" placeholder="Registered Email" required>
+      <button id="btn-reset" class="btn-primary" onclick="resetPassword()" style="width: 100%; margin-top: 16px; padding: 10px;">
+        <i class="fa-solid fa-key"></i> Reset Password
+      </button>
+      <p style="margin-top: 24px; font-size: 14px;">
+        <a href="#" onclick="switchForm('login')" style="color: var(--gh-text-muted); text-decoration: none;">Back to login</a>
+      </p>
     </div>
   </div>
 
-  <footer style="color:#242e30;text-align: center;text-shadow:#121212 ;font-size: 20px;">Buat Oleh edy Sahputra </footer>
-
-  <script src="https://epromod.github.io/on/script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>

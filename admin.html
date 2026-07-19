@@ -3,43 +3,64 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Admin Panel - Hosting Drive</title>
-  <link rel="stylesheet" href="https://epromod.github.io/on/style.css" />
+  <title>Admin Panel | EdyHost</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-   <!-- PWA Support -->
-   <link rel="manifest" href="manifest.json" />
-   <meta name="theme-color" content="#007bff" />
-   <link rel="icon" href="icon-192.png" />
-   <meta name="apple-mobile-web-app-capable" content="yes" />
-   <meta name="mobile-web-app-capable" content="yes" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-  <div class="container">
-    <h2>🛠️ Admin Panel</h2>
-    <button onclick="logout()">🔒 Logout</button>
+  <!-- Header Identik dengan Gradient Original -->
+  <header class="gh-header">
+    <h2><i class="fa-solid fa-shield-halved"></i> Administrator Center</h2>
+    <nav>
+      <button onclick="exportExcel()" style="color: #0d1117;"><i class="fa-solid fa-file-excel"></i> Export</button>
+      <button onclick="logout()" style="color: #cb2431;"><i class="fa-solid fa-power-off"></i> Logout</button>
+    </nav>
+  </header>
 
-    <h3>👤 Data Pengguna</h3>
-    <div id="userTable"></div>
+  <div class="gh-container-single">
+    
+    <!-- Global Stats -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px;" id="globalStats">
+       <!-- Diisi JS -->
+    </div>
 
-    <h3>📅 Riwayat Aktivitas</h3>
-    <label>Dari: <input type="date" id="startDate"></label>
-    <label>Sampai: <input type="date" id="endDate"></label>
-    <button onclick="loadRiwayat()">🔍 Tampilkan</button>
-    <div id="logTable"></div>
+    <!-- Data Pengguna (User Repository) -->
+    <div class="gh-box">
+      <div class="gh-box-header">
+        <span><i class="fa-solid fa-users"></i> User Accounts</span>
+      </div>
+      <div class="table-responsive" id="userTable"></div>
+    </div>
 
-    <h3>📈 Grafik Storage</h3>
-    <canvas id="userChart" height="150"></canvas>
+    <!-- Storage Chart -->
+    <div class="gh-box">
+      <div class="gh-box-header"><i class="fa-solid fa-chart-bar"></i> Global Storage Usage</div>
+      <div class="gh-box-body"><canvas id="userChart" height="120"></canvas></div>
+    </div>
 
-    <h3>📊 Statistik Global</h3>
-    <div id="globalStats"></div>
+    <!-- Storage Per User -->
+    <div class="gh-box">
+      <div class="gh-box-header"><i class="fa-solid fa-server"></i> Storage Distribution</div>
+      <div class="table-responsive" id="userStorageStats"></div>
+    </div>
 
-    <h3>💾 Statistik Per User</h3>
-    <div id="userStorageStats"></div>
+    <!-- Riwayat Aktivitas (Commit History) -->
+    <div class="gh-box">
+      <div class="gh-box-header" style="flex-wrap: wrap; gap: 12px;">
+        <span><i class="fa-solid fa-clock-rotate-left"></i> Activity Logs</span>
+        <div style="display: flex; gap: 8px;">
+          <input type="date" id="startDate" style="margin: 0;">
+          <input type="date" id="endDate" style="margin: 0;">
+          <button class="btn-primary" onclick="loadRiwayat()" id="btn-filter"><i class="fa-solid fa-filter"></i> Filter</button>
+        </div>
+      </div>
+      <div class="table-responsive" id="logTable"></div>
+    </div>
 
-    <h3>📤 Export Data</h3>
-    <button onclick="exportExcel()">⬇️ Export Excel</button>
   </div>
 
-  <script src="https://epromod.github.io/on/admin.js"></script>
+  <script src="admin.js"></script>
 </body>
 </html>

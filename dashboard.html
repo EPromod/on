@@ -3,56 +3,81 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Dashboard - Hosting</title>
-  <link rel="stylesheet" href="https://epromod.github.io/on/style.css" />
+  <title>Dashboard | EdyHost</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
-
-   <!-- PWA Support -->
-   <link rel="manifest" href="manifest.json" />
-   <meta name="theme-color" content="#007bff" />
-   <link rel="icon" href="icon-192.png" />
-   <meta name="apple-mobile-web-app-capable" content="yes" />
-   <meta name="mobile-web-app-capable" content="yes" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-  <div class="container">
-    <h2>📁 Dashboard</h2>
-    <p>Selamat datang, <span id="userEmail"></span></p>
-    <button onclick="logout()">🔒 Logout</button>
-    <button onclick="toggleDarkMode()" id="darkModeToggle">🌙 Dark Mode</button>
+  <!-- GitHub Header Style dengan Warna Gradient Original -->
+  <header class="gh-header">
+    <h2><i class="fa-solid fa-cloud"></i> EdyHost Dashboard</h2>
+    <nav>
+      <button onclick="toggleDarkMode()" id="darkModeToggle"><i class="fa-solid fa-moon"></i> Dark</button>
+      <button onclick="logout()" style="color: #444;"><i class="fa-solid fa-power-off"></i> Logout</button>
+    </nav>
+  </header>
 
-    <h3>📤 Upload File</h3>
-    <div id="dropArea">
-      Tarik dan lepas file atau klik Disini ==> #
-      <input type="file" id="fileInput" multiple hidden />
-     
-    </div>
+  <div class="gh-container">
+    <!-- Sidebar Kiri (Ala GitHub Profile) -->
+    <aside>
+      <img src="https://ui-avatars.com/api/?name=User&background=007bff&color=fff&size=200" alt="Avatar" style="width: 100%; border-radius: 50%; margin-bottom: 16px; border: 1px solid var(--gh-border);">
+      <h3 style="word-break: break-all;" id="userEmail">Loading...</h3>
+      <p class="text-muted" style="margin-bottom: 24px;">Developer Workspace</p>
 
-    <h3>📊 Statistik</h3>
-    <p>Total File: <span id="fileCount">0</span></p>
-    <p>Total Ukuran: <span id="fileSize">0</span></p>
+      <div class="gh-box">
+        <div class="gh-box-header">Storage Stats</div>
+        <div class="gh-box-body">
+          <p><i class="fa-solid fa-file-code text-muted"></i> <strong><span id="fileCount">0</span></strong> Files</p>
+          <p style="margin-top: 10px;"><i class="fa-solid fa-database text-muted"></i> <strong><span id="fileSize">0</span></strong> Used</p>
+        </div>
+      </div>
+    </aside>
 
-    <h3>📂 Daftar File</h3>
-    <div id="fileList"></div>
+    <!-- Konten Utama Kanan (Ala GitHub Repositories) -->
+    <main>
+      <!-- Area Upload -->
+      <div id="dropArea" class="gh-box" style="background: var(--gh-bg);">
+        <i class="fa-solid fa-cloud-arrow-up fa-2x" style="color: var(--primary); margin-bottom: 8px;"></i><br>
+        <strong>Upload File</strong><br>
+        <span class="text-muted">Tarik & lepas file atau klik untuk memilih file</span>
+        <input type="file" id="fileInput" multiple hidden />
+      </div>
+
+      <!-- File List -->
+      <div class="gh-box">
+        <div class="gh-box-header">
+          <span><i class="fa-solid fa-book-bookmark"></i> File Projects</span>
+          <button class="btn-primary" onclick="document.getElementById('fileInput').click()" style="padding: 4px 12px; font-size: 12px;">New</button>
+        </div>
+        <div id="fileList">
+          <p style="padding: 20px; text-align: center;" class="text-muted"><i class="fa-solid fa-spinner fa-spin"></i> Loading files...</p>
+        </div>
+      </div>
+    </main>
   </div>
 
+  <!-- Modals -->
   <div class="modal" id="editModal">
     <div class="modal-content">
-      <h3>Edit File</h3>
-      <textarea id="editArea" rows="15" style="width:100%"></textarea>
-      <button onclick="saveEdit()">💾 Simpan</button>
-      <button onclick="closeModal()">❌ Tutup</button>
+      <h3 style="margin-bottom: 16px;"><i class="fa-solid fa-code"></i> Edit Source</h3>
+      <textarea id="editArea" rows="16" style="font-family: monospace; font-size: 13px;"></textarea>
+      <div style="display: flex; gap: 8px; margin-top: 16px;">
+        <button class="btn-primary" id="btn-save" onclick="saveEdit()" style="flex: 1;"><i class="fa-solid fa-floppy-disk"></i> Commit Changes</button>
+        <button onclick="closeModal()" style="flex: 1;"><i class="fa-solid fa-xmark"></i> Cancel</button>
+      </div>
     </div>
   </div>
-  <div class="modal" id="qrModal">
-    <div class="modal-content" style="text-align:center;">
-      <h3>📱 QR Code</h3>
-      <canvas id="qrCanvas"></canvas><br/>
-      <button onclick="closeQR()">❌ Tutup</button>
-    </div>
-  </div>
-  
 
-  <script src="https://epromod.github.io/on/dashboard.js"></script>
+  <div class="modal" id="qrModal">
+    <div class="modal-content" style="text-align:center; max-width: 300px;">
+      <h3 style="margin-bottom: 16px;"><i class="fa-solid fa-qrcode"></i> Scan Project</h3>
+      <canvas id="qrCanvas" style="border-radius: 8px; margin: 0 auto; display: block;"></canvas>
+      <button onclick="closeQR()" style="width: 100%; margin-top: 16px;"><i class="fa-solid fa-xmark"></i> Close</button>
+    </div>
+  </div>
+
+  <script src="dashboard.js"></script>
 </body>
 </html>
